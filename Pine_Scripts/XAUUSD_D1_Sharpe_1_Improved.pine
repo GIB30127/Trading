@@ -1,0 +1,57 @@
+//@version=6
+strategy("XAUUSD D1 Sharpe 1 Improved", overlay=true, margin_long=100, margin_short=100, default_qty_type=strategy.percent_of_equity, default_qty_value=8)
+
+// === PARAMÈTRES AMÉLIORÉS POUR SHARPE > 1 ===
+breakout_period = 3        // Breakout plus long pour plus de confirmation
+risk_atr = 0.5            // Stop loss très serré
+profit_atr = 2.0          // Take profit optimisé
+rsi_overbought = 82       // RSI moins permissif
+rsi_oversold = 18         // RSI moins permissif
+ema_short = 5             // EMA courte
+ema_long = 15             // EMA moyenne
+atr_period = 10           // ATR standard
+
+// === INDICATEURS ===
+atr = ta.atr(atr_period)
+rsi = ta.rsi(close, 10)   // RSI standard
+ema_short_val = ta.ema(close, ema_short)
+ema_long_val = ta.ema(close, ema_long)
+
+// Breakouts
+high_break = ta.highest(high, breakout_period)
+low_break = ta.lowest(low, breakout_period)
+
+// === FILTRES AMÉLIORÉS ===
+// Tendance haussière confirmée
+confirmed_uptrend = ema_short_val > ema_long_val and close > ema_short_val and ema_short_val > ema_short_val[1]
+
+// Volatilité contrôlée
+stable_volatility = atr > ta.sma(atr, 20) * 0.4 and atr < ta.sma(atr, 20) * 1.8
+
+// Momentum confirmé
+confirmed_momentum = close > close[1] and close[1] > close[2] and close > ema_short_val
+
+// Volume confirmé
+confirmed_volume = volume > ta.sma(volume, 15) * 0.8
+
+// === CONDITIONS AMÉLIORÉES ===
+breakout_up = high[1] < high_break[1] and high >= high_break
+
+// Conditions RSI améliorées
+rsi_ok = rsi < rsi_overbought and rsi > 25
+
+// === SIGNAL AMÉLIORÉ ===
+improved_condition = breakout_up and confirmed_uptrend and stable_volatility and confirmed_momentum and rsi_ok and confirmed_volume
+
+// === STRATÉGIE AMÉLIORÉE ===
+if improved_condition
+    strategy.entry("Improved Long", strategy.long)
+    strategy.exit("Exit Improved", "Improved Long", stop=close - risk_atr * atr, limit=close + profit_atr * atr)
+
+// === PLOTS ===
+plot(ema_short_val, "EMA Short", color=color.blue, linewidth=2)
+plot(ema_long_val, "EMA Long", color=color.red, linewidth=2)
+plot(high_break, "High Break", color=color.green, style=plot.style_line)
+
+// === ALERTS ===
+alertcondition(improved_condition, "Signal Improved", "Signal d'achat XAUUSD D1 - Sharpe 1 Improved") 

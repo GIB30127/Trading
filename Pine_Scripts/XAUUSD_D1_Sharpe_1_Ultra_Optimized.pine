@@ -1,0 +1,57 @@
+//@version=6
+strategy("XAUUSD D1 Sharpe 1 Ultra Optimized", overlay=true, margin_long=100, margin_short=100, default_qty_type=strategy.percent_of_equity, default_qty_value=8)
+
+// === PARAMÈTRES ULTRA OPTIMISÉS POUR SHARPE > 1 ===
+breakout_period = 1        // Breakout ultra court
+risk_atr = 0.5            // Stop loss ultra serré
+profit_atr = 2.0          // Take profit modéré
+rsi_overbought = 95       // RSI ultra permissif
+rsi_oversold = 5          // RSI ultra permissif
+ema_short = 2             // EMA ultra courte
+ema_long = 6              // EMA très courte
+atr_period = 4            // ATR ultra court
+
+// === INDICATEURS ===
+atr = ta.atr(atr_period)
+rsi = ta.rsi(close, 4)    // RSI ultra court
+ema_short_val = ta.ema(close, ema_short)
+ema_long_val = ta.ema(close, ema_long)
+
+// Breakouts
+high_break = ta.highest(high, breakout_period)
+low_break = ta.lowest(low, breakout_period)
+
+// === FILTRES ULTRA OPTIMISÉS ===
+// Tendance haussière ultra forte
+ultra_uptrend = ema_short_val > ema_long_val and close > ema_short_val and ema_short_val > ema_short_val[1] and ema_short_val[1] > ema_short_val[2]
+
+// Volatilité ultra contrôlée
+volatility_ok = atr > ta.sma(atr, 8) * 0.2 and atr < ta.sma(atr, 8) * 2.0
+
+// Momentum ultra haussier
+ultra_momentum = close > close[1] and close[1] > close[2] and close[2] > close[3] and close > ema_short_val
+
+// Volume fort
+volume_ok = volume > ta.sma(volume, 6) * 0.9
+
+// === CONDITIONS ULTRA OPTIMISÉES ===
+breakout_up = high[1] < high_break[1] and high >= high_break
+
+// Conditions RSI ultra permissives
+rsi_ok = rsi < rsi_overbought and rsi > 10
+
+// === SIGNAL ULTRA LONG ===
+ultra_long_condition = breakout_up and ultra_uptrend and volatility_ok and ultra_momentum and rsi_ok and volume_ok
+
+// === STRATÉGIE ULTRA LONG ONLY ===
+if ultra_long_condition
+    strategy.entry("Ultra Long", strategy.long)
+    strategy.exit("Exit Ultra Long", "Ultra Long", stop=close - risk_atr * atr, limit=close + profit_atr * atr)
+
+// === PLOTS ===
+plot(ema_short_val, "EMA Short", color=color.blue, linewidth=3)
+plot(ema_long_val, "EMA Long", color=color.red, linewidth=3)
+plot(high_break, "High Break", color=color.green, style=plot.style_line, linewidth=2)
+
+// === ALERTS ===
+alertcondition(ultra_long_condition, "Signal Ultra Long", "Signal d'achat XAUUSD D1 - Sharpe 1 Ultra") 

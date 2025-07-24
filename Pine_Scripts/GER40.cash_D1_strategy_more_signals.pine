@@ -1,0 +1,64 @@
+//@version=6
+strategy("GER40.cash D1 Multitimeframe Strategy - More Signals", overlay=true, margin_long=100, margin_short=100)
+
+// === PARAMÈTRES OPTIMISÉS POUR PLUS DE SIGNAUX ===
+breakout_period = 8        // Réduit de 15 à 8 pour plus de breakouts
+risk_atr = 1.44
+profit_atr = 3.04
+rsi_overbought = 75        // Augmenté de 69 à 75 (plus permissif)
+rsi_oversold = 25          // Réduit de 31 à 25 (plus permissif)
+adx_threshold = 20         // Réduit de 28 à 20 (plus permissif)
+ema_short = 20             // Réduit de 25 à 20 (plus réactif)
+ema_long = 50              // Réduit de 60 à 50 (plus réactif)
+
+// === INDICATEURS ===
+atr = ta.atr(14)
+rsi = ta.rsi(close, 14)
+// Utilisation d'un indicateur de tendance simple
+trend_strength_indicator = math.abs(ta.ema(close, 14) - ta.ema(close, 28)) / atr
+adx = trend_strength_indicator * 100
+ema_short_val = ta.ema(close, ema_short)
+ema_long_val = ta.ema(close, ema_long)
+
+// Breakouts
+high_break = ta.highest(high, breakout_period)
+low_break = ta.lowest(low, breakout_period)
+
+// Filtres moins stricts pour plus de signaux
+trend_strength = math.abs(ema_short_val - ema_long_val) / atr
+volatility_ok = atr > ta.sma(atr, 50) * 0.6  // Réduit de 0.8 à 0.6
+volume_ok = volume > ta.sma(volume, 20) * 0.5  // Réduit de 0.7 à 0.5
+
+// === CONDITIONS ===
+ema_trend = close > ema_long_val
+adx_strong = adx > adx_threshold
+trend_strong = trend_strength > 0.3  // Réduit de 0.5 à 0.3
+
+breakout_up = high[1] < high_break[1] and high >= high_break
+breakout_down = low[1] > low_break[1] and low <= low_break
+
+rsi_ok_long = rsi < rsi_overbought and rsi > 30  // Réduit de 35 à 30
+rsi_ok_short = rsi > rsi_oversold and rsi < 70   // Augmenté de 65 à 70
+
+// === SIGNALS ===
+long_condition = breakout_up and ema_trend and volume_ok and adx_strong and volatility_ok and trend_strong and rsi_ok_long and close > ema_short_val
+short_condition = breakout_down and not ema_trend and volume_ok and adx_strong and volatility_ok and trend_strong and rsi_ok_short and close < ema_short_val
+
+// === STRATÉGIE ===
+if long_condition
+    strategy.entry("Long", strategy.long)
+    strategy.exit("Exit Long", "Long", stop=close - risk_atr * atr, limit=close + profit_atr * atr)
+
+if short_condition
+    strategy.entry("Short", strategy.short)
+    strategy.exit("Exit Short", "Short", stop=close + risk_atr * atr, limit=close - profit_atr * atr)
+
+// === PLOTS ===
+plot(ema_short_val, "EMA Short", color=color.blue)
+plot(ema_long_val, "EMA Long", color=color.red)
+plot(high_break, "High Break", color=color.green, style=plot.style_line)
+plot(low_break, "Low Break", color=color.red, style=plot.style_line)
+
+// === ALERTS ===
+alertcondition(long_condition, "Signal Long", "Signal d'achat GER40.cash D1 - More Signals")
+alertcondition(short_condition, "Signal Short", "Signal de vente GER40.cash D1 - More Signals") 

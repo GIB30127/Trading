@@ -1,0 +1,68 @@
+//@version=5
+strategy("EMA Crossover + RSI 1 Trade/Jour", overlay=true, default_qty_type=strategy.percent_of_equity, default_qty_value=10)
+
+// === Paramètres utilisateur ===
+emaFastLen = input.int(9, "EMA rapide")
+emaSlowLen = input.int(21, "EMA lente")
+rsiLen = input.int(14, "RSI")
+rsiOvBuy = input.int(30, "RSI Survente (achat)")
+rsiOvSell = input.int(70, "RSI Surachat (vente)")
+
+takeProfitPerc = input.float(1.5, "Take Profit (%)", step=0.1) / 100
+stopLossPerc = input.float(0.7, "Stop Loss (%)", step=0.1) / 100
+
+// === Indicateurs ===
+emaFast = ta.ema(close, emaFastLen)
+emaSlow = ta.ema(close, emaSlowLen)
+rsi = ta.rsi(close, rsiLen)
+
+// === Gestion du trade unique par jour ===
+var float entryPrice = na
+var float sl = na
+var float tp = na
+var int entryBarDay = na
+var bool tradeTakenToday = false
+
+newDay = ta.change(time("D")) != 0
+if newDay
+    tradeTakenToday := false
+
+// === Conditions d'entrée ===
+longCond  = ta.crossover(emaFast, emaSlow) and rsi < rsiOvBuy and not tradeTakenToday
+shortCond = ta.crossunder(emaFast, emaSlow) and rsi > rsiOvSell and not tradeTakenToday
+
+// === Entrée en position ===
+if longCond
+    strategy.entry("Long", strategy.long)
+    entryPrice := close
+    sl := close * (1 - stopLossPerc)
+    tp := close * (1 + takeProfitPerc)
+    entryBarDay := dayofyear(time)
+    tradeTakenToday := true
+
+if shortCond
+    strategy.entry("Short", strategy.short)
+    entryPrice := close
+    sl := close * (1 + stopLossPerc)
+    tp := close * (1 - takeProfitPerc)
+    entryBarDay := dayofyear(time)
+    tradeTakenToday := true
+
+// === Sortie SL/TP ===
+if strategy.position_size > 0
+    strategy.exit("TP/SL Long", from_entry="Long", stop=sl, limit=tp)
+if strategy.position_size < 0
+    strategy.exit("TP/SL Short", from_entry="Short", stop=sl, limit=tp)
+
+// === Clôture en fin de journée si position ouverte ===
+endOfDay = (not na(entryBarDay)) and (dayofyear(time) != entryBarDay) and (strategy.position_size != 0)
+if endOfDay
+    strategy.close_all(comment="Clôture fin de journée")
+    entryBarDay := na
+    entryPrice := na
+    sl := na
+    tp := na
+
+// === Affichage des EMA ===
+plot(emaFast, color=color.green, title="EMA Rapide")
+plot(emaSlow, color=color.red, title="EMA Lente") 

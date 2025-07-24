@@ -1,0 +1,57 @@
+//@version=6
+strategy("EURUSD M15 Sharpe 1 Optimized", overlay=true, margin_long=100, margin_short=100, default_qty_type=strategy.percent_of_equity, default_qty_value=8)
+
+// === PARAMÈTRES OPTIMISÉS POUR SHARPE > 1 ===
+breakout_period = 2        // Breakout court
+risk_atr = 0.5            // Stop loss serré pour réduire la volatilité
+profit_atr = 2.0          // Take profit optimisé
+rsi_overbought = 82       // RSI moins permissif
+rsi_oversold = 18         // RSI moins permissif
+ema_short = 3             // EMA plus courte
+ema_long = 10             // EMA plus courte
+atr_period = 6            // ATR plus court
+
+// === INDICATEURS ===
+atr = ta.atr(atr_period)
+rsi = ta.rsi(close, 6)    // RSI plus court
+ema_short_val = ta.ema(close, ema_short)
+ema_long_val = ta.ema(close, ema_long)
+
+// Breakouts
+high_break = ta.highest(high, breakout_period)
+low_break = ta.lowest(low, breakout_period)
+
+// === FILTRES OPTIMISÉS ===
+// Tendance haussière confirmée
+uptrend = ema_short_val > ema_long_val and close > ema_short_val and ema_short_val > ema_short_val[1]
+
+// Volatilité contrôlée
+volatility_ok = atr > ta.sma(atr, 12) * 0.4 and atr < ta.sma(atr, 12) * 1.8
+
+// Momentum confirmé
+momentum_up = close > close[1] and close[1] > close[2]
+
+// Volume confirmé
+volume_ok = volume > ta.sma(volume, 8) * 0.7
+
+// === CONDITIONS OPTIMISÉES ===
+breakout_up = high[1] < high_break[1] and high >= high_break
+
+// Conditions RSI optimisées
+rsi_ok = rsi < rsi_overbought and rsi > 25
+
+// === SIGNAL OPTIMISÉ ===
+optimized_condition = breakout_up and uptrend and volatility_ok and momentum_up and rsi_ok and volume_ok
+
+// === STRATÉGIE OPTIMISÉE ===
+if optimized_condition
+    strategy.entry("Optimized Long", strategy.long)
+    strategy.exit("Exit Optimized", "Optimized Long", stop=close - risk_atr * atr, limit=close + profit_atr * atr)
+
+// === PLOTS ===
+plot(ema_short_val, "EMA Short", color=color.blue, linewidth=2)
+plot(ema_long_val, "EMA Long", color=color.red, linewidth=2)
+plot(high_break, "High Break", color=color.green, style=plot.style_line)
+
+// === ALERTS ===
+alertcondition(optimized_condition, "Signal Optimized", "Signal d'achat EURUSD M15 - Sharpe 1 Optimized")

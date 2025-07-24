@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Trading - Analyse Complète</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: #2d2d2d;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #4CAF50;
+        }
+        .metric-card.negative {
+            border-left-color: #F44336;
+        }
+        .table {
+            background-color: #2d2d2d;
+            color: #ffffff;
+        }
+        .table th {
+            background-color: #3d3d3d;
+            border-color: #4d4d4d;
+        }
+        .table td {
+            border-color: #4d4d4d;
+        }
+        .chart-container {
+            background: #2d2d2d;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1 class="text-center mb-0">📊 Dashboard Trading - Analyse Complète</h1>
+            <p class="text-center mb-0 mt-2">Comparaison des stratégies par instrument et timeframe</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Résumé des meilleurs résultats -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2>🏆 Résumé des Performances</h2>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <h4>🥇 Meilleur</h4>
+                    <h3>XAUUSD D1</h3>
+                    <p>796.03%</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card negative">
+                    <h4>🥉 Pire</h4>
+                    <h3>US30.cash H4</h3>
+                    <p>-12.17%</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <h4>📈 Moyenne</h4>
+                    <h3>94.24%</h3>
+                    <p>Performance moyenne</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <h4>✅ Rentables</h4>
+                    <h3>10/12</h3>
+                    <p>Stratégies rentables</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graphiques -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="chart-container">
+                    <div>                            <div id="ec61037d-b3a8-4fe7-b9a1-12d892ae8c0b" class="plotly-graph-div" style="height:500px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("ec61037d-b3a8-4fe7-b9a1-12d892ae8c0b")) {                    Plotly.newPlot(                        "ec61037d-b3a8-4fe7-b9a1-12d892ae8c0b",                        [{"marker":{"color":["#4CAF50","#4CAF50","#4CAF50","#4CAF50","#F44336","#4CAF50","#4CAF50","#4CAF50","#F44336","#4CAF50","#4CAF50","#4CAF50"]},"name":"Performance (%)","text":["796.0%","71.0%","5.0%","73.7%","-12.2%","10.8%","57.6%","10.0%","-3.8%","103.1%","16.8%","2.9%"],"textposition":"auto","x":["XAUUSD D1","XAUUSD H4","XAUUSD H1","US30.cash D1","US30.cash H4","US30.cash H1","EURUSD D1","EURUSD H4","EURUSD H1","GER40.cash D1","GER40.cash H4","GER40.cash H1"],"y":[796.0279611923625,70.98428671767482,4.982751959450948,73.74877940805318,-12.165083182974112,10.759208300593293,57.560382422507715,10.046192251448982,-3.7796709867176315,103.06448130677235,16.770555985539314,2.8979652719691495],"type":"bar"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"rgb(17,17,17)","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#f2f5fa"},"error_y":{"color":"#f2f5fa"},"marker":{"line":{"color":"rgb(17,17,17)","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#A2B1C6","gridcolor":"#506784","linecolor":"#506784","minorgridcolor":"#506784","startlinecolor":"#A2B1C6"},"baxis":{"endlinecolor":"#A2B1C6","gridcolor":"#506784","linecolor":"#506784","minorgridcolor":"#506784","startlinecolor":"#A2B1C6"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"line":{"color":"#283442"}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"marker":{"line":{"color":"#283442"}},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#506784"},"line":{"color":"rgb(17,17,17)"}},"header":{"fill":{"color":"#2a3f5f"},"line":{"color":"rgb(17,17,17)"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#f2f5fa","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#f2f5fa"},"geo":{"bgcolor":"rgb(17,17,17)","lakecolor":"rgb(17,17,17)","landcolor":"rgb(17,17,17)","showlakes":true,"showland":true,"subunitcolor":"#506784"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"dark"},"paper_bgcolor":"rgb(17,17,17)","plot_bgcolor":"rgb(17,17,17)","polar":{"angularaxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""},"bgcolor":"rgb(17,17,17)","radialaxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"rgb(17,17,17)","gridcolor":"#506784","gridwidth":2,"linecolor":"#506784","showbackground":true,"ticks":"","zerolinecolor":"#C8D4E3"},"yaxis":{"backgroundcolor":"rgb(17,17,17)","gridcolor":"#506784","gridwidth":2,"linecolor":"#506784","showbackground":true,"ticks":"","zerolinecolor":"#C8D4E3"},"zaxis":{"backgroundcolor":"rgb(17,17,17)","gridcolor":"#506784","gridwidth":2,"linecolor":"#506784","showbackground":true,"ticks":"","zerolinecolor":"#C8D4E3"}},"shapedefaults":{"line":{"color":"#f2f5fa"}},"sliderdefaults":{"bgcolor":"#C8D4E3","bordercolor":"rgb(17,17,17)","borderwidth":1,"tickwidth":0},"ternary":{"aaxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""},"baxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""},"bgcolor":"rgb(17,17,17)","caxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""}},"title":{"x":0.05},"updatemenudefaults":{"bgcolor":"#506784","borderwidth":0},"xaxis":{"automargin":true,"gridcolor":"#283442","linecolor":"#506784","ticks":"","title":{"standoff":15},"zerolinecolor":"#283442","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#283442","linecolor":"#506784","ticks":"","title":{"standoff":15},"zerolinecolor":"#283442","zerolinewidth":2}}},"title":{"text":"Comparaison des Performances par Instrument"},"xaxis":{"title":{"text":"Instrument & Timeframe"}},"yaxis":{"title":{"text":"Performance (%)"}},"height":500},                        {"responsive": true}                    )                };            </script>        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="chart-container">
+                    <div>                            <div id="0ad1f32b-3375-4e99-be6d-1522541c3d6e" class="plotly-graph-div" style="height:400px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("0ad1f32b-3375-4e99-be6d-1522541c3d6e")) {                    Plotly.newPlot(                        "0ad1f32b-3375-4e99-be6d-1522541c3d6e",                        [{"marker":{"color":"#2196F3"},"name":"Taux de R\u00e9ussite (%)","text":["42.9%","39.6%","34.4%","38.5%","31.8%","35.5%","37.9%","35.0%","31.2%","39.1%","35.3%","36.3%"],"textposition":"auto","x":["XAUUSD D1","XAUUSD H4","XAUUSD H1","US30.cash D1","US30.cash H4","US30.cash H1","EURUSD D1","EURUSD H4","EURUSD H1","GER40.cash D1","GER40.cash H4","GER40.cash H1"],"y":[42.857142857142854,39.59731543624161,34.375,38.46153846153847,31.838565022421523,35.50488599348534,37.88819875776397,35.048231511254016,31.25,39.130434782608695,35.319148936170215,36.31961259079903],"type":"bar"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"rgb(17,17,17)","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#f2f5fa"},"error_y":{"color":"#f2f5fa"},"marker":{"line":{"color":"rgb(17,17,17)","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#A2B1C6","gridcolor":"#506784","linecolor":"#506784","minorgridcolor":"#506784","startlinecolor":"#A2B1C6"},"baxis":{"endlinecolor":"#A2B1C6","gridcolor":"#506784","linecolor":"#506784","minorgridcolor":"#506784","startlinecolor":"#A2B1C6"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"line":{"color":"#283442"}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"marker":{"line":{"color":"#283442"}},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#506784"},"line":{"color":"rgb(17,17,17)"}},"header":{"fill":{"color":"#2a3f5f"},"line":{"color":"rgb(17,17,17)"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#f2f5fa","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#f2f5fa"},"geo":{"bgcolor":"rgb(17,17,17)","lakecolor":"rgb(17,17,17)","landcolor":"rgb(17,17,17)","showlakes":true,"showland":true,"subunitcolor":"#506784"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"dark"},"paper_bgcolor":"rgb(17,17,17)","plot_bgcolor":"rgb(17,17,17)","polar":{"angularaxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""},"bgcolor":"rgb(17,17,17)","radialaxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"rgb(17,17,17)","gridcolor":"#506784","gridwidth":2,"linecolor":"#506784","showbackground":true,"ticks":"","zerolinecolor":"#C8D4E3"},"yaxis":{"backgroundcolor":"rgb(17,17,17)","gridcolor":"#506784","gridwidth":2,"linecolor":"#506784","showbackground":true,"ticks":"","zerolinecolor":"#C8D4E3"},"zaxis":{"backgroundcolor":"rgb(17,17,17)","gridcolor":"#506784","gridwidth":2,"linecolor":"#506784","showbackground":true,"ticks":"","zerolinecolor":"#C8D4E3"}},"shapedefaults":{"line":{"color":"#f2f5fa"}},"sliderdefaults":{"bgcolor":"#C8D4E3","bordercolor":"rgb(17,17,17)","borderwidth":1,"tickwidth":0},"ternary":{"aaxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""},"baxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""},"bgcolor":"rgb(17,17,17)","caxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""}},"title":{"x":0.05},"updatemenudefaults":{"bgcolor":"#506784","borderwidth":0},"xaxis":{"automargin":true,"gridcolor":"#283442","linecolor":"#506784","ticks":"","title":{"standoff":15},"zerolinecolor":"#283442","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#283442","linecolor":"#506784","ticks":"","title":{"standoff":15},"zerolinecolor":"#283442","zerolinewidth":2}}},"title":{"text":"Taux de R\u00e9ussite par Instrument"},"xaxis":{"title":{"text":"Instrument & Timeframe"}},"yaxis":{"title":{"text":"Taux de R\u00e9ussite (%)"}},"height":400},                        {"responsive": true}                    )                };            </script>        </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tableau de comparaison -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2>📋 Tableau Comparatif Détaillé</h2>
+                <div class="table-responsive">
+                    <table border="1" class="dataframe table table-striped table-hover">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Instrument</th>
+      <th>Timeframe</th>
+      <th>Performance (%)</th>
+      <th>PnL Total</th>
+      <th>Sharpe Ratio</th>
+      <th>Win Rate (%)</th>
+      <th>Trades</th>
+      <th>Gagnants</th>
+      <th>Perdants</th>
+      <th>R/R Ratio</th>
+      <th>Max DD (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>XAUUSD</td>
+      <td>D1</td>
+      <td>796.03%</td>
+      <td>0.8388</td>
+      <td>2.18</td>
+      <td>42.9</td>
+      <td>70</td>
+      <td>30</td>
+      <td>40</td>
+      <td>1.81</td>
+      <td>135.7</td>
+    </tr>
+    <tr>
+      <td>US30.cash</td>
+      <td>D1</td>
+      <td>73.75%</td>
+      <td>0.0587</td>
+      <td>0.51</td>
+      <td>38.5</td>
+      <td>26</td>
+      <td>10</td>
+      <td>16</td>
+      <td>1.72</td>
+      <td>150.9</td>
+    </tr>
+    <tr>
+      <td>XAUUSD</td>
+      <td>H4</td>
+      <td>70.98%</td>
+      <td>0.3732</td>
+      <td>1.45</td>
+      <td>39.6</td>
+      <td>149</td>
+      <td>59</td>
+      <td>90</td>
+      <td>1.88</td>
+      <td>370.5</td>
+    </tr>
+    <tr>
+      <td>EURUSD</td>
+      <td>D1</td>
+      <td>57.56%</td>
+      <td>0.3370</td>
+      <td>1.03</td>
+      <td>37.9</td>
+      <td>161</td>
+      <td>61</td>
+      <td>100</td>
+      <td>1.89</td>
+      <td>68.0</td>
+    </tr>
+    <tr>
+      <td>XAUUSD</td>
+      <td>H1</td>
+      <td>4.98%</td>
+      <td>0.0571</td>
+      <td>0.32</td>
+      <td>34.4</td>
+      <td>288</td>
+      <td>99</td>
+      <td>189</td>
+      <td>2.00</td>
+      <td>218.8</td>
+    </tr>
+    <tr>
+      <td>GER40.cash</td>
+      <td>H1</td>
+      <td>2.90%</td>
+      <td>0.0479</td>
+      <td>0.29</td>
+      <td>36.3</td>
+      <td>413</td>
+      <td>150</td>
+      <td>263</td>
+      <td>1.83</td>
+      <td>148.5</td>
+    </tr>
+    <tr>
+      <td>GER40.cash</td>
+      <td>H4</td>
+      <td>16.77%</td>
+      <td>0.1556</td>
+      <td>0.37</td>
+      <td>35.3</td>
+      <td>235</td>
+      <td>83</td>
+      <td>152</td>
+      <td>1.96</td>
+      <td>1358.3</td>
+    </tr>
+    <tr>
+      <td>GER40.cash</td>
+      <td>D1</td>
+      <td>103.06%</td>
+      <td>0.1380</td>
+      <td>0.69</td>
+      <td>39.1</td>
+      <td>46</td>
+      <td>18</td>
+      <td>28</td>
+      <td>1.73</td>
+      <td>387.2</td>
+    </tr>
+    <tr>
+      <td>US30.cash</td>
+      <td>H1</td>
+      <td>10.76%</td>
+      <td>0.1326</td>
+      <td>0.92</td>
+      <td>35.5</td>
+      <td>307</td>
+      <td>109</td>
+      <td>198</td>
+      <td>2.11</td>
+      <td>144.6</td>
+    </tr>
+    <tr>
+      <td>EURUSD</td>
+      <td>H4</td>
+      <td>10.05%</td>
+      <td>0.1254</td>
+      <td>0.73</td>
+      <td>35.0</td>
+      <td>311</td>
+      <td>109</td>
+      <td>202</td>
+      <td>2.06</td>
+      <td>477.1</td>
+    </tr>
+    <tr>
+      <td>EURUSD</td>
+      <td>H1</td>
+      <td>-3.78%</td>
+      <td>-0.0662</td>
+      <td>-0.80</td>
+      <td>31.2</td>
+      <td>448</td>
+      <td>140</td>
+      <td>308</td>
+      <td>1.95</td>
+      <td>692.8</td>
+    </tr>
+    <tr>
+      <td>US30.cash</td>
+      <td>H4</td>
+      <td>-12.17%</td>
+      <td>-0.1084</td>
+      <td>-0.32</td>
+      <td>31.8</td>
+      <td>223</td>
+      <td>71</td>
+      <td>152</td>
+      <td>2.03</td>
+      <td>6286.6</td>
+    </tr>
+  </tbody>
+</table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Détails par instrument -->
+        <div class="row">
+            <div class="col-12">
+                <h2>🔍 Détails par Instrument</h2>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="metric-card">
+                    <h3>XAUUSD D1</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Performance:</strong> 796.03%<br>
+                            <strong>PnL Total:</strong> 0.8388
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sharpe Ratio:</strong> 2.18<br>
+                            <strong>Win Rate:</strong> 42.9%
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trades:</strong> 70<br>
+                            <strong>R/R Ratio:</strong> 1.81
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Max Drawdown:</strong> 135.7%<br>
+                            <strong>Gagnants/Perdants:</strong> 30/40
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="metric-card">
+                    <h3>XAUUSD H4</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Performance:</strong> 70.98%<br>
+                            <strong>PnL Total:</strong> 0.3732
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sharpe Ratio:</strong> 1.45<br>
+                            <strong>Win Rate:</strong> 39.6%
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trades:</strong> 149<br>
+                            <strong>R/R Ratio:</strong> 1.88
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Max Drawdown:</strong> 370.5%<br>
+                            <strong>Gagnants/Perdants:</strong> 59/90
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="metric-card">
+                    <h3>XAUUSD H1</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Performance:</strong> 4.98%<br>
+                            <strong>PnL Total:</strong> 0.0571
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sharpe Ratio:</strong> 0.32<br>
+                            <strong>Win Rate:</strong> 34.4%
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trades:</strong> 288<br>
+                            <strong>R/R Ratio:</strong> 2.00
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Max Drawdown:</strong> 218.8%<br>
+                            <strong>Gagnants/Perdants:</strong> 99/189
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="metric-card">
+                    <h3>US30.cash D1</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Performance:</strong> 73.75%<br>
+                            <strong>PnL Total:</strong> 0.0587
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sharpe Ratio:</strong> 0.51<br>
+                            <strong>Win Rate:</strong> 38.5%
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trades:</strong> 26<br>
+                            <strong>R/R Ratio:</strong> 1.72
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Max Drawdown:</strong> 150.9%<br>
+                            <strong>Gagnants/Perdants:</strong> 10/16
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="metric-card">
+                    <h3>US30.cash H4</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Performance:</strong> -12.17%<br>
+                            <strong>PnL Total:</strong> -0.1084
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sharpe Ratio:</strong> -0.32<br>
+                            <strong>Win Rate:</strong> 31.8%
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trades:</strong> 223<br>
+                            <strong>R/R Ratio:</strong> 2.03
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Max Drawdown:</strong> 6286.6%<br>
+                            <strong>Gagnants/Perdants:</strong> 71/152
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="metric-card">
+                    <h3>US30.cash H1</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Performance:</strong> 10.76%<br>
+                            <strong>PnL Total:</strong> 0.1326
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sharpe Ratio:</strong> 0.92<br>
+                            <strong>Win Rate:</strong> 35.5%
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trades:</strong> 307<br>
+                            <strong>R/R Ratio:</strong> 2.11
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Max Drawdown:</strong> 144.6%<br>
+                            <strong>Gagnants/Perdants:</strong> 109/198
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="metric-card">
+                    <h3>EURUSD D1</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Performance:</strong> 57.56%<br>
+                            <strong>PnL Total:</strong> 0.3370
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sharpe Ratio:</strong> 1.03<br>
+                            <strong>Win Rate:</strong> 37.9%
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trades:</strong> 161<br>
+                            <strong>R/R Ratio:</strong> 1.89
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Max Drawdown:</strong> 68.0%<br>
+                            <strong>Gagnants/Perdants:</strong> 61/100
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="metric-card">
+                    <h3>EURUSD H4</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Performance:</strong> 10.05%<br>
+                            <strong>PnL Total:</strong> 0.1254
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sharpe Ratio:</strong> 0.73<br>
+                            <strong>Win Rate:</strong> 35.0%
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trades:</strong> 311<br>
+                            <strong>R/R Ratio:</strong> 2.06
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Max Drawdown:</strong> 477.1%<br>
+                            <strong>Gagnants/Perdants:</strong> 109/202
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="metric-card">
+                    <h3>EURUSD H1</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Performance:</strong> -3.78%<br>
+                            <strong>PnL Total:</strong> -0.0662
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sharpe Ratio:</strong> -0.80<br>
+                            <strong>Win Rate:</strong> 31.2%
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trades:</strong> 448<br>
+                            <strong>R/R Ratio:</strong> 1.95
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Max Drawdown:</strong> 692.8%<br>
+                            <strong>Gagnants/Perdants:</strong> 140/308
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="metric-card">
+                    <h3>GER40.cash D1</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Performance:</strong> 103.06%<br>
+                            <strong>PnL Total:</strong> 0.1380
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sharpe Ratio:</strong> 0.69<br>
+                            <strong>Win Rate:</strong> 39.1%
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trades:</strong> 46<br>
+                            <strong>R/R Ratio:</strong> 1.73
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Max Drawdown:</strong> 387.2%<br>
+                            <strong>Gagnants/Perdants:</strong> 18/28
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="metric-card">
+                    <h3>GER40.cash H4</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Performance:</strong> 16.77%<br>
+                            <strong>PnL Total:</strong> 0.1556
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sharpe Ratio:</strong> 0.37<br>
+                            <strong>Win Rate:</strong> 35.3%
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trades:</strong> 235<br>
+                            <strong>R/R Ratio:</strong> 1.96
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Max Drawdown:</strong> 1358.3%<br>
+                            <strong>Gagnants/Perdants:</strong> 83/152
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="metric-card">
+                    <h3>GER40.cash H1</h3>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Performance:</strong> 2.90%<br>
+                            <strong>PnL Total:</strong> 0.0479
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Sharpe Ratio:</strong> 0.29<br>
+                            <strong>Win Rate:</strong> 36.3%
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Trades:</strong> 413<br>
+                            <strong>R/R Ratio:</strong> 1.83
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Max Drawdown:</strong> 148.5%<br>
+                            <strong>Gagnants/Perdants:</strong> 150/263
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

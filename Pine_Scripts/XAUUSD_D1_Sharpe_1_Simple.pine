@@ -1,0 +1,57 @@
+//@version=6
+strategy("XAUUSD D1 Sharpe 1 Simple", overlay=true, margin_long=100, margin_short=100, default_qty_type=strategy.percent_of_equity, default_qty_value=10)
+
+// === PARAMÈTRES SIMPLES POUR SHARPE > 1 ===
+breakout_period = 2        // Breakout court
+risk_atr = 0.7            // Stop loss modéré
+profit_atr = 2.5          // Take profit optimisé
+rsi_overbought = 85       // RSI permissif
+rsi_oversold = 15         // RSI permissif
+ema_short = 4             // EMA courte
+ema_long = 12             // EMA moyenne
+atr_period = 8            // ATR standard
+
+// === INDICATEURS ===
+atr = ta.atr(atr_period)
+rsi = ta.rsi(close, 8)    // RSI standard
+ema_short_val = ta.ema(close, ema_short)
+ema_long_val = ta.ema(close, ema_long)
+
+// Breakouts
+high_break = ta.highest(high, breakout_period)
+low_break = ta.lowest(low, breakout_period)
+
+// === FILTRES SIMPLES ===
+// Tendance haussière simple
+uptrend = ema_short_val > ema_long_val and close > ema_short_val
+
+// Volatilité
+volatility_ok = atr > ta.sma(atr, 15) * 0.3
+
+// Momentum simple
+momentum_up = close > close[1]
+
+// Volume simple
+volume_ok = volume > ta.sma(volume, 10) * 0.5
+
+// === CONDITIONS SIMPLES ===
+breakout_up = high[1] < high_break[1] and high >= high_break
+
+// Conditions RSI simples
+rsi_ok = rsi < rsi_overbought and rsi > 20
+
+// === SIGNAL SIMPLE ===
+simple_condition = breakout_up and uptrend and volatility_ok and momentum_up and rsi_ok and volume_ok
+
+// === STRATÉGIE SIMPLE ===
+if simple_condition
+    strategy.entry("Simple Long", strategy.long)
+    strategy.exit("Exit Simple", "Simple Long", stop=close - risk_atr * atr, limit=close + profit_atr * atr)
+
+// === PLOTS ===
+plot(ema_short_val, "EMA Short", color=color.blue, linewidth=2)
+plot(ema_long_val, "EMA Long", color=color.red, linewidth=2)
+plot(high_break, "High Break", color=color.green, style=plot.style_line)
+
+// === ALERTS ===
+alertcondition(simple_condition, "Signal Simple", "Signal d'achat XAUUSD D1 - Sharpe 1 Simple") 

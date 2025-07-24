@@ -1,0 +1,68 @@
+//@version=6
+strategy("XAUUSD D1 Sharpe 1 Strategy", overlay=true, margin_long=100, margin_short=100, default_qty_type=strategy.percent_of_equity, default_qty_value=10)
+
+// === PARAMÈTRES OPTIMISÉS POUR SHARPE 1 ===
+breakout_period = 2        // Breakout encore plus court
+risk_atr = 0.7            // Stop loss encore plus serré
+profit_atr = 2.2          // Take profit optimisé
+rsi_overbought = 88       // RSI optimisé
+rsi_oversold = 12         // RSI optimisé
+ema_short = 3             // EMA très courte
+ema_long = 12             // EMA plus courte
+atr_period = 7            // ATR court
+
+// === INDICATEURS ===
+atr = ta.atr(atr_period)
+rsi = ta.rsi(close, 7)    // RSI court
+ema_short_val = ta.ema(close, ema_short)
+ema_long_val = ta.ema(close, ema_long)
+
+// Breakouts
+high_break = ta.highest(high, breakout_period)
+low_break = ta.lowest(low, breakout_period)
+
+// === FILTRES OPTIMISÉS ===
+// Tendance forte
+strong_uptrend = ema_short_val > ema_long_val and close > ema_short_val and ema_short_val > ema_short_val[1]
+strong_downtrend = ema_short_val < ema_long_val and close < ema_short_val and ema_short_val < ema_short_val[1]
+
+// Volatilité optimisée
+volatility_ok = atr > ta.sma(atr, 15) * 0.4
+
+// Momentum fort
+momentum_up = close > close[1] and close[1] > close[2] and close > ema_short_val
+momentum_down = close < close[1] and close[1] < close[2] and close < ema_short_val
+
+// Volume
+volume_ok = volume > ta.sma(volume, 8) * 0.6
+
+// === CONDITIONS OPTIMISÉES ===
+breakout_up = high[1] < high_break[1] and high >= high_break
+breakout_down = low[1] > low_break[1] and low <= low_break
+
+// Conditions RSI optimisées
+rsi_ok_long = rsi < rsi_overbought and rsi > 25
+rsi_ok_short = rsi > rsi_oversold and rsi < 75
+
+// === SIGNALS OPTIMISÉS ===
+long_condition = breakout_up and strong_uptrend and volatility_ok and momentum_up and rsi_ok_long and volume_ok
+short_condition = breakout_down and strong_downtrend and volatility_ok and momentum_down and rsi_ok_short and volume_ok
+
+// === STRATÉGIE ===
+if long_condition
+    strategy.entry("Long", strategy.long)
+    strategy.exit("Exit Long", "Long", stop=close - risk_atr * atr, limit=close + profit_atr * atr)
+
+if short_condition
+    strategy.entry("Short", strategy.short)
+    strategy.exit("Exit Short", "Short", stop=close + risk_atr * atr, limit=close - profit_atr * atr)
+
+// === PLOTS ===
+plot(ema_short_val, "EMA Short", color=color.blue, linewidth=2)
+plot(ema_long_val, "EMA Long", color=color.red, linewidth=2)
+plot(high_break, "High Break", color=color.green, style=plot.style_line)
+plot(low_break, "Low Break", color=color.red, style=plot.style_line)
+
+// === ALERTS ===
+alertcondition(long_condition, "Signal Long", "Signal d'achat XAUUSD D1 - Sharpe 1")
+alertcondition(short_condition, "Signal Short", "Signal de vente XAUUSD D1 - Sharpe 1") 

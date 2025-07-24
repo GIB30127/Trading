@@ -1,0 +1,38 @@
+//@version=5
+strategy("EMA Crossover + RSI Filter v2 (auto params)", overlay=true, default_qty_type=strategy.percent_of_equity, default_qty_value=10)
+
+// Détection automatique de la timeframe
+var string tf = timeframe.period
+
+// Paramètres dynamiques selon la timeframe
+emaFastLen = tf == "1" ? 6 : tf == "5" ? 8 : tf == "15" ? 9 : tf == "60" ? 12 : tf == "240" ? 15 : tf == "D" ? 20 : 9
+emaSlowLen = tf == "1" ? 15 : tf == "5" ? 18 : tf == "15" ? 21 : tf == "60" ? 26 : tf == "240" ? 30 : tf == "D" ? 40 : 21
+rsiLen     = tf == "1" ? 7 : tf == "5" ? 10 : tf == "15" ? 14 : tf == "60" ? 14 : tf == "240" ? 14 : tf == "D" ? 14 : 14
+rsiOvBuy   = 50
+rsiOvSell  = 50
+takeProfitPerc = tf == "1" ? 0.5/100 : tf == "5" ? 0.7/100 : tf == "15" ? 1.0/100 : tf == "60" ? 1.5/100 : tf == "240" ? 2.0/100 : tf == "D" ? 3.0/100 : 1.5/100
+stopLossPerc   = tf == "1" ? 0.2/100 : tf == "5" ? 0.3/100 : tf == "15" ? 0.5/100 : tf == "60" ? 0.7/100 : tf == "240" ? 1.0/100 : tf == "D" ? 1.5/100 : 0.7/100
+
+emaFast = ta.ema(close, emaFastLen)
+emaSlow = ta.ema(close, emaSlowLen)
+rsi = ta.rsi(close, rsiLen)
+
+longCond = ta.crossover(emaFast, emaSlow) and rsi < rsiOvBuy
+shortCond = ta.crossunder(emaFast, emaSlow) and rsi > rsiOvSell
+
+if (longCond)
+    strategy.entry("Long", strategy.long)
+if (shortCond)
+    strategy.entry("Short", strategy.short)
+
+if (strategy.position_size > 0)
+    strategy.exit("Exit Long", from_entry="Long",
+      stop=strategy.position_avg_price * (1 - stopLossPerc),
+      limit=strategy.position_avg_price * (1 + takeProfitPerc))
+if (strategy.position_size < 0)
+    strategy.exit("Exit Short", from_entry="Short",
+      stop=strategy.position_avg_price * (1 + stopLossPerc),
+      limit=strategy.position_avg_price * (1 - takeProfitPerc))
+
+plot(emaFast, color=color.green, title="EMA Rapide")
+plot(emaSlow, color=color.red, title="EMA Lente") 

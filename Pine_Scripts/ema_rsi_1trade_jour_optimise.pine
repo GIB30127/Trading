@@ -1,0 +1,98 @@
+//@version=5
+strategy("EMA Crossover + RSI Optimisé (1 trade/jour, filtre tendance/horaire)", overlay=true, default_qty_type=strategy.percent_of_equity, default_qty_value=10, commission_type=strategy.commission.percent, commission_value=input.float(0.02, "Commission (%)", step=0.01))
+
+// === Paramètres utilisateur ===
+emaFastLen = input.int(9, "EMA rapide", minval=1)
+emaSlowLen = input.int(21, "EMA lente", minval=1)
+emaTrendLen = input.int(200, "EMA tendance", minval=1)
+rsiLen = input.int(14, "RSI")
+rsiOvBuy = input.int(40, "RSI max pour achat")
+rsiOvSell = input.int(60, "RSI min pour vente")
+sessionStart = input.int(8, "Début session (heure)")
+sessionEnd = input.int(18, "Fin session (heure)")
+takeProfitATR = input.float(6, "TP x ATR", step=0.1)
+stopLossATR = input.float(1.5, "SL x ATR", step=0.1)
+dureeMax = input.int(39, "Durée max en bougies")
+
+// === Indicateurs ===
+emaFast = ta.ema(close, emaFastLen)
+emaSlow = ta.ema(close, emaSlowLen)
+emaTrend = ta.ema(close, emaTrendLen)
+rsi = ta.rsi(close, rsiLen)
+atr = ta.atr(14)
+
+// === Filtre horaire ===
+h = hour(time, "Europe/Paris")
+inSession = (h >= sessionStart) and (h < sessionEnd)
+
+// === Gestion du trade unique par jour (robuste) ===
+var float entryPrice = na
+var float sl = na
+var float tp = na
+var int entryBarDay = na
+var bool tradeTakenToday = false
+var int entryBarIndex = na
+
+currentDay = dayofyear(time)
+newDay = ta.change(currentDay) != 0
+if newDay
+    tradeTakenToday := false
+
+// === Conditions d'entrée (filtre tendance + horaire) ===
+longCond  = ta.crossover(emaFast, emaSlow) and rsi < rsiOvBuy and not tradeTakenToday and close > emaTrend and inSession
+shortCond = ta.crossunder(emaFast, emaSlow) and rsi > rsiOvSell and not tradeTakenToday and close < emaTrend and inSession
+
+// === Entrée en position ===
+if longCond
+    strategy.entry("Long", strategy.long)
+    entryPrice := close
+    sl := close - stopLossATR * atr
+    tp := close + takeProfitATR * atr
+    entryBarDay := currentDay
+    tradeTakenToday := true
+    entryBarIndex := bar_index
+if shortCond
+    strategy.entry("Short", strategy.short)
+    entryPrice := close
+    sl := close + stopLossATR * atr
+    tp := close - takeProfitATR * atr
+    entryBarDay := currentDay
+    tradeTakenToday := true
+    entryBarIndex := bar_index
+
+// === Sortie SL/TP ===
+if strategy.position_size > 0
+    strategy.exit("TP/SL Long", from_entry="Long", stop=sl, limit=tp)
+if strategy.position_size < 0
+    strategy.exit("TP/SL Short", from_entry="Short", stop=sl, limit=tp)
+
+// === Clôture en fin de journée si position ouverte ===
+endOfDay = not na(entryBarDay) and (currentDay != entryBarDay) and (strategy.position_size != 0)
+if endOfDay
+    strategy.close_all(comment="Clôture fin de journée")
+    entryBarDay := na
+    entryPrice := na
+    sl := na
+    tp := na
+    entryBarIndex := na
+
+// === Clôture si durée max atteinte ===
+if not na(entryBarIndex) and (bar_index - entryBarIndex >= dureeMax) and (strategy.position_size != 0)
+    strategy.close_all(comment="Durée max atteinte")
+    entryBarDay := na
+    entryPrice := na
+    sl := na
+    tp := na
+    entryBarIndex := na
+
+// === Affichage des EMA et signaux ===
+plot(emaFast, color=color.green, title="EMA Rapide")
+plot(emaSlow, color=color.red, title="EMA Lente")
+plot(emaTrend, color=color.orange, title="EMA Tendance (filtre)")
+plotshape(longCond, color=color.lime, style=shape.triangleup, location=location.belowbar, size=size.tiny, title="Signal Long")
+plotshape(shortCond, color=color.red, style=shape.triangledown, location=location.abovebar, size=size.tiny, title="Signal Short")
+
+// === Instructions ===
+// Ce script prend 1 trade max par jour, uniquement dans la tendance EMA 200, sur la plage horaire définie.
+// SL/TP dynamiques basés sur l'ATR. Durée max paramétrable. Commission simulée.
+// Optimise les paramètres selon ton actif et ton timeframe pour de meilleurs résultats. 

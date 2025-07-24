@@ -1,0 +1,61 @@
+//@version=6
+strategy("XAUUSD D1 Multitimeframe Strategy - Long Only", overlay=true, margin_long=100, margin_short=100)
+
+// === PARAMÈTRES OPTIMISÉS POUR LONG ONLY ===
+breakout_period = 10       // Optimisé pour Long
+risk_atr = 1.1            // Stop loss serré
+profit_atr = 2.2          // Take profit réaliste
+rsi_overbought = 65       // Seuil RSI strict pour Long
+rsi_oversold = 35         // Seuil RSI pour éviter les zones de survente
+adx_threshold = 22        // ADX pour qualité
+ema_short = 20            // EMA courte réactive
+ema_long = 50             // EMA longue
+
+// === INDICATEURS ===
+atr = ta.atr(14)
+rsi = ta.rsi(close, 14)
+// Utilisation d'un indicateur de tendance simple
+trend_strength_indicator = math.abs(ta.ema(close, 14) - ta.ema(close, 28)) / atr
+adx = trend_strength_indicator * 100
+ema_short_val = ta.ema(close, ema_short)
+ema_long_val = ta.ema(close, ema_long)
+
+// Breakouts
+high_break = ta.highest(high, breakout_period)
+low_break = ta.lowest(low, breakout_period)
+
+// Filtres optimisés pour Long
+trend_strength = math.abs(ema_short_val - ema_long_val) / atr
+volatility_ok = atr > ta.sma(atr, 50) * 0.6  // Volatilité suffisante
+volume_ok = volume > ta.sma(volume, 20) * 0.7  // Volume correct
+
+// === CONDITIONS OPTIMISÉES POUR LONG ===
+ema_trend = close > ema_long_val
+adx_strong = adx > adx_threshold
+trend_strong = trend_strength > 0.3
+
+breakout_up = high[1] < high_break[1] and high >= high_break
+
+// Conditions RSI optimisées pour Long
+rsi_ok_long = rsi < rsi_overbought and rsi > 35  // Zone optimale pour Long
+
+// Filtres supplémentaires pour qualité Long
+strong_uptrend = ema_short_val > ema_long_val and close > ema_short_val
+momentum_positive = close > close[1] and close[1] > close[2]  // Momentum haussier
+
+// === SIGNAL LONG SEULEMENT ===
+long_condition = breakout_up and ema_trend and volume_ok and adx_strong and volatility_ok and trend_strong and rsi_ok_long and close > ema_short_val and strong_uptrend and momentum_positive
+
+// === STRATÉGIE LONG ONLY ===
+if long_condition
+    strategy.entry("Long", strategy.long)
+    strategy.exit("Exit Long", "Long", stop=close - risk_atr * atr, limit=close + profit_atr * atr)
+
+// === PLOTS ===
+plot(ema_short_val, "EMA Short", color=color.blue)
+plot(ema_long_val, "EMA Long", color=color.red)
+plot(high_break, "High Break", color=color.green, style=plot.style_line)
+plot(low_break, "Low Break", color=color.red, style=plot.style_line)
+
+// === ALERTS ===
+alertcondition(long_condition, "Signal Long", "Signal d'achat XAUUSD D1 - Long Only") 
