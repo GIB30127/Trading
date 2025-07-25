@@ -117,13 +117,20 @@ def generate_text_report(trades, metrics, df_signals, output_dir, symbol, timefr
             # Performance par année
             yearly_perf = df_trades.groupby('year')['pnl'].agg(['count', 'sum', 'mean']).round(2)
             f.write("### Performance par année:\n")
-            f.write(yearly_perf.to_markdown())
+            f.write("| Année | Nombre de trades | P&L total | P&L moyen |\n")
+            f.write("|-------|------------------|-----------|-----------|\n")
+            for year, row in yearly_perf.iterrows():
+                f.write(f"| {year} | {row['count']} | {row['sum']:.2f}% | {row['mean']:.2f}% |\n")
             f.write("\n\n")
             
             # Performance par mois
             monthly_perf = df_trades.groupby('month')['pnl'].agg(['count', 'sum', 'mean']).round(2)
             f.write("### Performance par mois:\n")
-            f.write(monthly_perf.to_markdown())
+            f.write("| Mois | Nombre de trades | P&L total | P&L moyen |\n")
+            f.write("|------|------------------|-----------|-----------|\n")
+            for month, row in monthly_perf.iterrows():
+                month_name = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'][month-1]
+                f.write(f"| {month_name} | {row['count']} | {row['sum']:.2f}% | {row['mean']:.2f}% |\n")
             f.write("\n\n")
         
         # Recommandations

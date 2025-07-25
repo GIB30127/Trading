@@ -1,0 +1,66 @@
+{
+  "genetique_D1": {
+    "id": "Genetique D1_20250724_113512",
+    "name": "Genetique D1",
+    "optimization_type": "genetique",
+    "symbol": "XAUUSD",
+    "timeframe": "D1",
+    "timestamp": "20250724_113512",
+    "date_created": "2025-07-24 11:35:12",
+    "params": {
+      "breakout_period": 2,
+      "profit_atr": 4.89,
+      "rsi_overbought": 95,
+      "rsi_oversold": 23,
+      "ema_short": 4,
+      "ema_long": 18,
+      "atr_period": 12,
+      "trail_atr": 0.34,
+      "stop_loss_atr": 3.46,
+      "max_positions": 3,
+      "risk_per_trade": 1.09
+    },
+    "metrics": {
+      "total_trades": 607,
+      "win_rate": 51.73,
+      "total_return": 458.41,
+      "max_drawdown": 14.41,
+      "profit_factor": 4.28,
+      "sharpe_ratio": 253.47
+    },
+    "score": 80,
+    "status": "active"
+  },
+  "genetique_H4": {
+    "id": "Genetique H4_20250724_113512",
+    "name": "Genetique H4",
+    "optimization_type": "genetique",
+    "symbol": "XAUUSD",
+    "timeframe": "H4",
+    "timestamp": "20250724_113512",
+    "date_created": "2025-07-24 11:35:12",
+    "params": {
+      "breakout_period": 3,
+      "profit_atr": 4.97,
+      "rsi_overbought": 94,
+      "rsi_oversold": 11,
+      "ema_short": 3,
+      "ema_long": 13,
+      "atr_period": 11,
+      "trail_atr": 0.4,
+      "stop_loss_atr": 2.95,
+      "max_positions": 1,
+      "risk_per_trade": 2.88
+    },
+    "metrics": {
+      "total_trades": 1067,
+      "win_rate": 50.05,
+      "total_return": 290.39,
+      "max_drawdown": 8.84,
+      "profit_factor": 3.63,
+      "sharpe_ratio": 382.62
+    },
+    "score": 78,
+    "status": "active"
+  }
+}
